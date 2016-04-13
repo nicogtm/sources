@@ -1,0 +1,13 @@
+CAPI=1
+[main]
+name = optimsoc:system:compute_tile_dm-nexys4ddr
+depend =
+  wallento:board:nexys4ddr
+  wallento:svchannels:nasti
+  wallento:svchannels:wishbone
+  wallento:wb2nasti:wb2nasti
+  optimsoc:tile:compute_tile_dm
+
+[verilog]
+src_files =
+  rtl/verilog/compute_tile_dm_nexys4.sv
