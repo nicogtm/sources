@@ -9,6 +9,8 @@ depend =
   optimsoc:debug_system:mam_wb_adapter
   optimsoc:wb_interconnect:bus
 
-[verilog]
-src_files =
+[fileset src_files]
+file_type = verilogSource
+usage = sim synth
+files =
   ../verilog/compute_tile_dm.v
