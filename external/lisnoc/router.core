@@ -15,4 +15,3 @@ files =
   rtl/router/lisnoc_router_output.v
   rtl/router/lisnoc_router_output_arbiter.v
   rtl/router/lisnoc_router_arbiter_prio.v
-  rtl/lisnoc_arb_rr.v

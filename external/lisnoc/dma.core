@@ -1,6 +1,7 @@
 CAPI=1
 [main]
 name = optimsoc:lisnoc:dma
+depend = optimsoc:lisnoc:blocks
 
 [fileset src_files]
 file_type = verilogSource
@@ -14,7 +15,6 @@ files =
   rtl/dma/lisnoc_dma_initiator_nocresp.v
   rtl/dma/lisnoc_dma_request_table.v
   rtl/dma/lisnoc_dma_wbinterface.v
-  rtl/lisnoc_arb_rr.v
 
 [fileset include_files]
 file_type = verilogSource
