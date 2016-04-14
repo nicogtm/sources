@@ -22,3 +22,6 @@ is_include_file = true
 usage = sim synth
 files =
   rtl/dma/lisnoc_dma_def.vh
+  rtl/dma/lisnoc_dma_undef.vh
+  rtl/lisnoc_def.vh
+  rtl/lisnoc_undef.vh

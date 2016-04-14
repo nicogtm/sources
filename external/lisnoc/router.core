@@ -1,12 +1,12 @@
 CAPI=1
 [main]
 name = optimsoc:lisnoc:router
+depend = optimsoc:lisnoc:blocks
 
 [fileset src_files]
 file_type = verilogSource
 usage = sim synth
 files =
-  rtl/router/lisnoc_router.v
   rtl/router/lisnoc_router.v
   rtl/router/lisnoc_fifo.v
   rtl/router/lisnoc_router_arbiter.v
