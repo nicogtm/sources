@@ -7,3 +7,10 @@ file_type = verilogSource
 usage = sim synth
 files =
   verilog/bootrom.v
+
+[fileset include_files]
+file_type = verilogSource
+is_include_file = true
+usage = sim synth
+files =
+  verilog/bootrom_code.v
