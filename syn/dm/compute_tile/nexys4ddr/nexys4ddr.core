@@ -2,12 +2,21 @@ CAPI=1
 [main]
 name = optimsoc:system:compute_tile_dm-nexys4ddr
 depend =
-  wallento:board:nexys4ddr
+  wallento:boards:nexys4ddr
   wallento:svchannels:nasti
   wallento:svchannels:wishbone
   wallento:wb2nasti:wb2nasti
   optimsoc:tile:compute_tile_dm
 
-[verilog]
-src_files =
+[fileset rtl_files]
+file_type = verilogSource
+usage = sim synth
+files =
   rtl/verilog/compute_tile_dm_nexys4.sv
+
+[fileset include_files]
+file_type = verilogSource
+is_include_file = true
+usage = sim synth
+files =
+  optimsoc_def.vh
