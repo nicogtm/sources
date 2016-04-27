@@ -2,7 +2,7 @@ CAPI=1
 [main]
 name = optimsoc:tile:memory_tile_dm
 description = "Memory tile"
-depends = optimsoc:lisnoc:dma
+depend = optimsoc:lisnoc:dma
 
 [fileset src_files]
 file_type = verilogSource
