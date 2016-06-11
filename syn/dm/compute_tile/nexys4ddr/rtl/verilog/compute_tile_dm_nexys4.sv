@@ -4,8 +4,8 @@ module compute_tile_dm_nexys4
    input                 cpu_reset_n,
 
    output                uart_rxd_out,
-   input                 uart_txd_in,   
-   
+   input                 uart_txd_in,
+
    output [12:0]         ddr2_addr,
    output [2:0]          ddr2_ba,
    output                ddr2_cas_n,
@@ -25,7 +25,7 @@ module compute_tile_dm_nexys4
    localparam NASTI_ID_WIDTH = 4;
    localparam DDR_ADDR_WIDTH = 28;
    localparam DDR_DATA_WIDTH = 32;
-   
+
    nasti_channel
      #(.ID_WIDTH   (NASTI_ID_WIDTH),
        .ADDR_WIDTH (DDR_ADDR_WIDTH),
@@ -41,25 +41,24 @@ module compute_tile_dm_nexys4
    logic                 uart_rx, uart_tx;
 
    compute_tile_dm
-     u_compute_tile(.*,
-                    wb_mem_adr_i  (c_wb_ddr.adr_o),
-                    wb_mem_cyc_i  (c_wb_ddr.cyc_o) ,
-                    wb_mem_dat_i  (c_wb_ddr.dat_o),
-                    wb_mem_sel_i  (c_wb_ddr.sel_o),
-                    wb_mem_stb_i  (c_wb_ddr.stb_o),
-                    wb_mem_we_i   (c_wb_ddr.we_o),
-                    wb_mem_cab_i  (c_wb_ddr.cab_o),
-                    wb_mem_cti_i  (c_wb_ddr.cti_o),
-                    wb_mem_bte_i  (c_wb_ddr.bte_o),
-                    wb_mem_ack_o  (c_wb_ddr.ack_i), 
-                    wb_mem_rty_o  (c_wb_ddr.rty_i), 
-                    wb_mem_err_o  (c_wb_ddr.err_i),
-                    wb_mem_dat_o  (c_wb_ddr.dat_i)
+     u_compute_tile(.wb_mem_adr_i  (c_wb_ddr.adr_o),
+                    .wb_mem_cyc_i  (c_wb_ddr.cyc_o),
+                    .wb_mem_dat_i  (c_wb_ddr.dat_o),
+                    .wb_mem_sel_i  (c_wb_ddr.sel_o),
+                    .wb_mem_stb_i  (c_wb_ddr.stb_o),
+                    .wb_mem_we_i   (c_wb_ddr.we_o),
+                    .wb_mem_cab_i  (c_wb_ddr.cab_o),
+                    .wb_mem_cti_i  (c_wb_ddr.cti_o),
+                    .wb_mem_bte_i  (c_wb_ddr.bte_o),
+                    .wb_mem_ack_o  (c_wb_ddr.ack_i),
+                    .wb_mem_rty_o  (c_wb_ddr.rty_i),
+                    .wb_mem_err_o  (c_wb_ddr.err_i),
+                    .wb_mem_dat_o  (c_wb_ddr.dat_i),
+                    .*
                     );
-   
+
    nexys4ddr
-     u_board(.*,
-             .ddr_awid    (c_nasti_ddr.aw_id),
+     u_board(.ddr_awid    (c_nasti_ddr.aw_id),
              .ddr_awaddr  (c_nasti_ddr.aw_addr),
              .ddr_awlen   (c_nasti_ddr.aw_len),
              .ddr_awsize  (c_nasti_ddr.aw_size),
@@ -93,9 +92,10 @@ module compute_tile_dm_nexys4
              .ddr_rdata   (c_nasti_ddr.r_data),
              .ddr_rlast   (c_nasti_ddr.r_last),
              .ddr_rvalid  (c_nasti_ddr.r_valid),
-             .ddr_rready  (c_nasti_ddr.r_ready)
+             .ddr_rready  (c_nasti_ddr.r_ready),
+             .*
              );
-   
+
    wb2nasti
      #(.ADDR_WIDTH (DDR_ADDR_WIDTH),
        .DATA_WIDTH (DDR_DATA_WIDTH),
