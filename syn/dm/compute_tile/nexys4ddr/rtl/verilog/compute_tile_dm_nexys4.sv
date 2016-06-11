@@ -1,3 +1,33 @@
+/* Copyright (c) 2016 by the author(s)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * =============================================================================
+ *
+ * Toplevel: compute_tile_dm on a Nexys 4 DDR board
+ *
+ * Author(s):
+ *   Stefan Wallentowitz <stefan.wallentowitz@tum.de>
+ */
+
+`include "optimsoc_def.vh"
+
 module compute_tile_dm_nexys4
   (
    input                 clk,
@@ -26,6 +56,11 @@ module compute_tile_dm_nexys4
    localparam DDR_ADDR_WIDTH = 28;
    localparam DDR_DATA_WIDTH = 32;
 
+   localparam NOC_FLIT_DATA_WIDTH = 32;
+   localparam NOC_FLIT_TYPE_WIDTH = 2;
+   localparam NOC_FLIT_WIDTH = NOC_FLIT_DATA_WIDTH+NOC_FLIT_TYPE_WIDTH;
+   localparam VCHANNELS = `VCHANNELS;
+
    nasti_channel
      #(.ID_WIDTH   (NASTI_ID_WIDTH),
        .ADDR_WIDTH (DDR_ADDR_WIDTH),
@@ -40,20 +75,45 @@ module compute_tile_dm_nexys4
    logic                 sys_clk, sys_rst;
    logic                 uart_rx, uart_tx;
 
+
+   // terminate NoC connection
+   logic [NOC_FLIT_WIDTH-1:0] noc_in_flit;
+   logic [VCHANNELS-1:0] noc_in_valid;
+   logic [VCHANNELS-1:0] noc_in_ready;
+   logic [NOC_FLIT_WIDTH-1:0] noc_out_flit;
+   logic [VCHANNELS-1:0] noc_out_valid;
+   logic [VCHANNELS-1:0] noc_out_ready;
+
+   assign noc_in_valid = 0;
+   assign noc_out_ready = 0;
+
+   // XXX: generate proper resets
+   logic rst_sys, rst_cpu, cpu_stall;
+   assign rst_sys = 0;
+   assign rst_cpu = 0;
+   assign cpu_stall = 0;
+
+
    compute_tile_dm
+     #(.VCHANNELS(VCHANNELS),
+       .NOC_FLIT_DATA_WIDTH(NOC_FLIT_DATA_WIDTH),
+       .NOC_FLIT_TYPE_WIDTH(NOC_FLIT_TYPE_WIDTH)
+     )
      u_compute_tile(.wb_mem_adr_i  (c_wb_ddr.adr_o),
                     .wb_mem_cyc_i  (c_wb_ddr.cyc_o),
                     .wb_mem_dat_i  (c_wb_ddr.dat_o),
                     .wb_mem_sel_i  (c_wb_ddr.sel_o),
                     .wb_mem_stb_i  (c_wb_ddr.stb_o),
                     .wb_mem_we_i   (c_wb_ddr.we_o),
-                    .wb_mem_cab_i  (c_wb_ddr.cab_o),
+                    .wb_mem_cab_i  (), // XXX: this is an old signal not present in WB B3 any more!?
                     .wb_mem_cti_i  (c_wb_ddr.cti_o),
                     .wb_mem_bte_i  (c_wb_ddr.bte_o),
                     .wb_mem_ack_o  (c_wb_ddr.ack_i),
                     .wb_mem_rty_o  (c_wb_ddr.rty_i),
                     .wb_mem_err_o  (c_wb_ddr.err_i),
                     .wb_mem_dat_o  (c_wb_ddr.dat_i),
+
+                    .trace(),
                     .*
                     );
 

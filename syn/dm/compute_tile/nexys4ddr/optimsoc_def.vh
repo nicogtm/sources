@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  *
  * =============================================================================
- * 
+ *
  * System-wide definitions for an OpTiMSoC system instance.
  *
  * Author(s):
@@ -39,9 +39,12 @@
 `define OPTIMSOC_XDIM 1
 `define OPTIMSOC_YDIM 1
 
+`define OPTIMSOC_CTRAM_WIRES 1
+
 `define OPTIMSOC_SRAM_IMPLEMENTATION "PLAIN"
 
 `define OPTIMSOC_DEBUG_ENABLE_STM 1
 `define OPTIMSOC_DEBUG_ENABLE_ITM 1
 
 `define OPTIMSOC_SRAM_VALIDATE_ADDRESS 1
+
